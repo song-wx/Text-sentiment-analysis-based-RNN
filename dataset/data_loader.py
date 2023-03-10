@@ -92,7 +92,7 @@ def collate_fn(batch_data):
 def get_dataset_loader(sentences, sentiments, batchsize):
     """创建dataloader供训练使用"""
     my_dataset = MyDataset(sentences, sentiments) ##使用处理好的句子矩阵和对应情感类别构造Dataset
-    dataloader = DataLoader(dataset=my_dataset, batch_size=batchsize, shuffle=False, drop_last=True, collate_fn=collate_fn)
+    dataloader = DataLoader(dataset=my_dataset, batch_size=batchsize, shuffle=True, drop_last=True, collate_fn=collate_fn)
     return dataloader
 
 def data_split(data, test_rate=0.3):

@@ -4,6 +4,7 @@ import random
 from dataset.data_loader import *
 from models.model import My_RNN
 from train import train
+import matplotlib.pyplot as plt
 
 def main():
     
@@ -47,13 +48,43 @@ def main():
     test_loader = get_dataset_loader(data_processed.train_sentences_ID, data_processed.train_sentiments, batchsize=batchsize)
 
     sentiment_analysis_model = My_RNN(50, 50, data_processed.word_nums, output_len=output_len,
-                                       weight=torch.tensor(data_processed.embedding_list, dtype=torch.float))
+                                       weight=torch.tensor(data_processed.embedding_list, dtype=torch.float), layer_num=2)
     
+    """开始训练，返回损失和精度情况"""
     train_loss_record, test_loss_record, train_acc_record, test_acc_record = train(sentiment_analysis_model, trainloader=train_loader, 
                                                                                    testloader=test_loader, epoch_nums=epoch_num, 
                                                                                    learning_rate=learning_rate,)
 
-    
+    """画图"""
+    x = list(range(1,epoch_num + 1))
+    ##损失
+    plt.subplot(1, 2, 1)
+    plt.plot(x, train_loss_record, 'r--', label='Train loss')
+    plt.plot(x, test_loss_record, 'g-', label="Test loss")
+    plt.legend()
+    plt.legend(fontsize=10)
+    plt.title("Loss")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    ##精度
+    plt.subplot(1, 2, 2)
+    plt.plot(x, train_acc_record, 'b--', label='Train accuracy')
+    plt.plot(x, test_acc_record, 'y--', label='Test accuracy')
+    plt.legend()
+    plt.legend(fontsize=10)
+    plt.title("Accuracy")
+    plt.xlabel("Epochs")
+    plt.ylabel("Accuracy")
+    #保存
+    plt.ylim(0, 1)
+    plt.tight_layout()
+    fig = plt.gcf()
+    fig.set_size_inches(8, 8, forward=True)
+    plt.savefig('main_plot.jpg')
+    plt.show()
+
+
+
 
 if __name__ == '__main__':
     main()
