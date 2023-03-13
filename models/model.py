@@ -10,7 +10,7 @@ class My_RNN(nn.Module):
                  batch_first=True, dropout = 0.5):
         super(My_RNN, self).__init__()
         self.input_len = input_len ##输入的维度，即词嵌入的维度
-        self.words_num = words_num ##输入的句子中词的个数
+        self.words_num = words_num ##使用glove中词的个数
         
         self.hidden_len = hidden_len ##隐藏层的维度
         self.layer_num = layer_num ##隐藏层的数量，默认值为1
