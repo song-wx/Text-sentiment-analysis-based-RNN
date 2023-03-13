@@ -34,7 +34,7 @@ def main():
 
     ##初始化训练参数
     epoch_num = 50 ##eopch数
-    learning_rate = 0.001 ##学习率
+    learning_rate = 0.0005 ##学习率
     batchsize = 256 
     input_len = 50 ##输入的维度，即词嵌入的维度
     hidden_len = 50 ##隐藏层的维度

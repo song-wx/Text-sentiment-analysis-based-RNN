@@ -35,10 +35,10 @@ class My_RNN(nn.Module):
         ##初始化h0为全零向量,即初始的隐状态为零,维度为[layer_num，batch_size, hidden_len]
         h0 = torch.randn(self.layer_num, batchsize, self.hidden_len).cuda()
         """dropout后不变，经过隐藏层后，只取最后一个rnn层的最后一个输出，维度为[1，batch_size, hidden_len]"""
-        out, _ = self.rnn(output, h0) 
+        out, h0 = self.rnn(output, h0) 
         
         """经过全连接层后，输出维度为[1，batch_size, output_len]，之后压缩掉第0维度，得到的输出维度[batch_size, output_len]"""
-        output = self.fc(out[:-1:]).squeeze(0) 
+        output = self.fc(h0[-1]).squeeze(0) 
         return output
 
 
